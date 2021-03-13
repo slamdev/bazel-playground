@@ -47,3 +47,45 @@ load(
 )
 
 _java_image_repos()
+
+# skylib
+
+http_archive(
+    name = "bazel_skylib",
+    urls = [
+        "https://github.com/bazelbuild/bazel-skylib/releases/download/1.0.3/bazel-skylib-1.0.3.tar.gz",
+        "https://mirror.bazel.build/github.com/bazelbuild/bazel-skylib/releases/download/1.0.3/bazel-skylib-1.0.3.tar.gz",
+    ],
+    sha256 = "1c531376ac7e5a180e0237938a2536de0c54d93f5c278634818e0efc952dd56c",
+)
+
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
+
+bazel_skylib_workspace()
+
+#
+
+#load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+#RULES_HELM_VERSION = "49148fce1906e82d44b5375813b58e9989e492c0"
+#RULES_HELM_SHA256 = "2e43dfeb0f0a330aa7668847ae03a1454c37baadd86875a9ae6dc3379febe3ef"
+#
+#http_archive(
+#    name = "slamdev_rules_helm",
+#    strip_prefix = "rules_helm-%s" % RULES_HELM_VERSION,
+#    url = "https://github.com/slamdev/rules_helm/archive/%s.tar.gz" % RULES_HELM_VERSION,
+#    sha256 = RULES_HELM_SHA256
+#)
+
+local_repository(
+    name = "slamdev_rules_helm",
+    path = "../rules_helm",
+)
+
+load("@slamdev_rules_helm//helm:repositories.bzl", "rules_helm_dependencies", "rules_helm_toolchains")
+
+rules_helm_dependencies()
+
+rules_helm_toolchains()
