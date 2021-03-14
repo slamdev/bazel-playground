@@ -1,20 +1,22 @@
 java_library(
     name = "lib",
     srcs = glob(["src/main/java/echobouncer/*.java"]),
+    plugins = ["//platform/java:lombok"],
     resources = glob(["src/main/resources/**"]),
     deps = [
-        "@maven//:org_springframework_boot_spring_boot_starter_web",
-        "@maven//:org_springframework_boot_spring_boot_autoconfigure",
+        "//projects/hello-world/services/echo-bouncer/openapi:openapi_server_spec",
+        "@maven//:org_projectlombok_lombok",
+        "@maven//:org_slf4j_slf4j_api",
         "@maven//:org_springframework_boot_spring_boot",
+        "@maven//:org_springframework_boot_spring_boot_autoconfigure",
+        "@maven//:org_springframework_boot_spring_boot_starter_web",
     ],
 )
 
 java_binary(
     name = "jar",
     main_class = "echobouncer.EchoBouncer",
-    runtime_deps = [
-        ":lib",
-    ],
+    runtime_deps = [":lib"],
 )
 
 load("@io_bazel_rules_docker//java:image.bzl", "java_image")
@@ -22,9 +24,7 @@ load("@io_bazel_rules_docker//java:image.bzl", "java_image")
 java_image(
     name = "docker",
     main_class = "echobouncer.EchoBouncer",
-    runtime_deps = [
-        ":lib"
-    ],
+    runtime_deps = [":lib"],
 )
 
 load("@io_bazel_rules_docker//container:container.bzl", "container_push")
