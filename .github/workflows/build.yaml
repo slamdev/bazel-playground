@@ -1,0 +1,32 @@
+name: build
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, macos-latest ]
+        bazel: [ 3.7.2, 4.0.0 ]
+    runs-on: ${{ matrix.os }}
+    name: OS ${{ matrix.os }} bazel ${{ matrix.bazel }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/bazel
+          key: repo-cache-${{ matrix.os }}-${{ matrix.bazel }}
+      - name: Set Bazelisk Version ${{ matrix.bazel }}
+        run: |
+          echo ${{ matrix.bazel }} > .bazelversion
+      - name: Build
+        run: |
+          ./baseliskw build //... --disk_cache=~/.cache/bazel
+      - name: Test
+        run: |
+          ./baseliskw test //... --disk_cache=~/.cache/bazel
