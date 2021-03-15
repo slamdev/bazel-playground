@@ -72,7 +72,7 @@ def _openapi_spring_gen_impl(ctx):
 openapi_spring_gen = rule(
     attrs = {
         "src": attr.label(allow_single_file = [".yaml", ".yml"], mandatory = True),
-        "type": attr.string(mandatory = True),
+        "type": attr.string(mandatory = True, values = ["server", "client"]),
         "use_optional": attr.bool(),
         "cli": attr.label(allow_single_file = True),
         "deps": attr.label_list(providers = [JavaInfo]),
