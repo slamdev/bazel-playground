@@ -20,8 +20,6 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: '13'
-          java-package: jdk
-          architecture: x64
       - uses: actions/cache@v2
         with:
           path: ~/.cache/bazel
