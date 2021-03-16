@@ -1,7 +1,3 @@
-load("@rules_jvm_external//:defs.bzl", "maven_install")
-load("@rules_jvm_external//:defs.bzl", "artifact")
-load("@rules_jvm_external//:specs.bzl", "maven")
-
 def _path_to_short_path_mapping_for_singlejar(file):
     return file.path + ":" + file.short_path
 

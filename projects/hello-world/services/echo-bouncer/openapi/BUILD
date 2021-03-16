@@ -1,4 +1,4 @@
-load("//platform/java:openapi_spring_gen_marco.bzl", "server", "client")
+load("//platform/java:openapi_spring_gen_macros.bzl", "server", "client")
 
 server(
     name = "openapi_server_spec",
