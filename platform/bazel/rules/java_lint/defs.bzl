@@ -38,16 +38,19 @@ def _java_lint_pmd_test_impl(ctx):
 
     jars = ctx.attr.cli[JavaInfo].transitive_compile_time_jars.to_list()
 
+    filelist = ctx.actions.declare_file(ctx.label.name + "-list")
+    ctx.actions.write(output = filelist, content = "\n".join([s.path for s in ctx.files.srcs]))
+
     cmd = [java_bin]
     cmd += ["-cp"]
     cmd += ["'" + ":".join([j.path for j in jars]) + "'"]
     cmd += ["net.sourceforge.pmd.PMD"]
     cmd += ["-R", ctx.file.cfg_file.path]
-    cmd += ["-d", "'" + " ".join([s.path for s in ctx.files.srcs]) + "'"]
+    cmd += ["-filelist", filelist.short_path]
 
     ctx.actions.write(output = executable, content = " ".join(cmd))
 
-    runfiles = ctx.runfiles(files = ctx.files.srcs + ctx.files._host_javabase + jars + [ctx.file.cfg_file])
+    runfiles = ctx.runfiles(files = ctx.files.srcs + ctx.files._host_javabase + jars + [ctx.file.cfg_file, filelist])
     return [DefaultInfo(executable = executable, runfiles = runfiles)]
 
 java_lint_pmd_test = rule(
