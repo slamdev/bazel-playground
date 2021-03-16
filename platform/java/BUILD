@@ -13,3 +13,11 @@ filegroup(
     ],
     visibility = ["//visibility:public"],
 )
+
+filegroup(
+    name = "pmd_config",
+    srcs = [
+        "pmd_quickstart.xml",
+    ],
+    visibility = ["//visibility:public"],
+)
