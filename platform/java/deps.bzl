@@ -25,6 +25,7 @@ def maven_deps():
             "com.github.slamdev.openapispringgenerator:cli:0.1.1",
             "com.puppycrawl.tools:checkstyle:8.41",
             "net.sourceforge.pmd:pmd-java8:6.32.0",
+            "com.github.spotbugs:spotbugs:4.2.2",
         ],
     )
 

@@ -21,3 +21,11 @@ filegroup(
     ],
     visibility = ["//visibility:public"],
 )
+
+filegroup(
+    name = "spotbugs_config",
+    srcs = [
+        "spotbugs_filter.xml",
+    ],
+    visibility = ["//visibility:public"],
+)
