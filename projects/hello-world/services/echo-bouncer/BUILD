@@ -36,3 +36,10 @@ container_push(
     registry = "index.docker.io",
     repository = "slamdev/bazel-playground-hello-world-echo-bouncer",
 )
+
+load("//platform/java:java_lint_marcos.bzl", "checkstyle")
+
+checkstyle(
+    name = "checkstyle",
+    srcs = glob(["src/main/java/echobouncer/*.java"]),
+)

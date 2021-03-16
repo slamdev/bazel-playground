@@ -5,3 +5,11 @@ java_plugin(
     visibility = ["//visibility:public"],
     deps = ["@maven//:org_projectlombok_lombok"],
 )
+
+filegroup(
+    name = "checkstyle_config",
+    srcs = [
+        "sun_checks.xml",
+    ],
+    visibility = ["//visibility:public"],
+)

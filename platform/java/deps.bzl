@@ -23,6 +23,7 @@ def maven_deps():
             MAVEN_BOMS.get("org.springframework:spring-beans"),
             MAVEN_BOMS.get("com.fasterxml.jackson.core:jackson-annotations"),
             "com.github.slamdev.openapispringgenerator:cli:0.1.1",
+            "com.puppycrawl.tools:checkstyle:8.41",
         ],
     )
 
