@@ -1,4 +1,4 @@
-load("//platform/bazel/rules/java_lint:defs.bzl", "java_lint_checkstyle_test", "java_lint_pmd_test", "java_lint_spotbugs_test")
+load("//platform/bazel/rules/java_lint:defs.bzl", "java_lint_checkstyle_test", "java_lint_pmd_test", "java_lint_spotbugs_test", "java_lint_openapi_test")
 
 def checkstyle(name, srcs):
     java_lint_checkstyle_test(
@@ -25,5 +25,13 @@ def spotbugs(name, srcs):
         deps = ["@maven//:org_slf4j_slf4j_api"],
         cli = "@maven//:com_github_spotbugs_spotbugs",
         cfg_file = "//platform/java:spotbugs_config",
+        visibility = ["//visibility:public"],
+    )
+
+def openapi(name, srcs):
+    java_lint_openapi_test(
+        name = name,
+        srcs = srcs,
+        cli = "@maven//:com_github_slamdev_openapispringgenerator_cli",
         visibility = ["//visibility:public"],
     )

@@ -16,8 +16,7 @@ def _java_cmd(ctx, main_class, args):
         jars += d[JavaInfo].transitive_compile_time_jars.to_list()
 
     cmd = [java_bin]
-    cmd += ["-cp"]
-    cmd += ["'" + ":".join([j.short_path for j in jars]) + "'"]
+    cmd += ["-cp", "'" + ":".join([j.short_path for j in jars]) + "'"]
     cmd += [main_class]
     cmd += args
 
@@ -85,5 +84,21 @@ java_lint_spotbugs_test = rule(
         "srcs": attr.label_list(allow_files = True, allow_empty = False, providers = [JavaInfo]),
         "cfg_file": attr.label(allow_single_file = [".xml"], mandatory = True),
     }),
+    test = True,
+)
+
+def _java_lint_openapi_test_impl(ctx):
+    args = []
+    args += ["validate"]
+    args += ["--fail-on-errors"]
+    args += [" ".join([s.short_path for s in ctx.files.srcs])]
+    cmd = _java_cmd(ctx, "com.github.slamdev.openapispringgenerator.cli.Application", args)
+
+    runfiles = ctx.runfiles(files = ctx.files.srcs + cmd.files)
+    return [DefaultInfo(executable = cmd.executable, runfiles = runfiles)]
+
+java_lint_openapi_test = rule(
+    implementation = _java_lint_openapi_test_impl,
+    attrs = _DEFAULT_ATTRS,
     test = True,
 )

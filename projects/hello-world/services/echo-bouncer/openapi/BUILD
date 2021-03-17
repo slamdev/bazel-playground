@@ -9,3 +9,10 @@ client(
     name = "openapi_client_spec",
     src = "http-spec-v3.yaml",
 )
+
+load("//platform/java:java_lint_marcos.bzl", "openapi")
+
+openapi(
+    name = "openapi_lint",
+    srcs = glob(["*.yaml"]),
+)
