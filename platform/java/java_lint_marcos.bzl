@@ -22,6 +22,7 @@ def spotbugs(name, srcs):
     java_lint_spotbugs_test(
         name = name,
         srcs = srcs,
+        deps = ["@maven//:org_slf4j_slf4j_api"],
         cli = "@maven//:com_github_spotbugs_spotbugs",
         cfg_file = "//platform/java:spotbugs_config",
         visibility = ["//visibility:public"],

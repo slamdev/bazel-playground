@@ -4,6 +4,8 @@ def _java_lint_checkstyle_test_impl(ctx):
     java_bin = ctx.attr._host_javabase[java_common.JavaRuntimeInfo].java_executable_exec_path
 
     jars = ctx.attr.cli[JavaInfo].transitive_compile_time_jars.to_list()
+    for d in ctx.attr.deps:
+        jars += d[JavaInfo].transitive_compile_time_jars.to_list()
 
     cmd = [java_bin]
     cmd += ["-cp"]
@@ -21,6 +23,7 @@ java_lint_checkstyle_test = rule(
     implementation = _java_lint_checkstyle_test_impl,
     attrs = {
         "srcs": attr.label_list(allow_files = True),
+        "deps": attr.label_list(allow_files = True, providers = [JavaInfo]),
         "cli": attr.label(allow_single_file = True, providers = [JavaInfo]),
         "cfg_file": attr.label(allow_single_file = [".xml"], mandatory = True),
         "_host_javabase": attr.label(
@@ -37,6 +40,8 @@ def _java_lint_pmd_test_impl(ctx):
     java_bin = ctx.attr._host_javabase[java_common.JavaRuntimeInfo].java_executable_exec_path
 
     jars = ctx.attr.cli[JavaInfo].transitive_compile_time_jars.to_list()
+    for d in ctx.attr.deps:
+        jars += d[JavaInfo].transitive_compile_time_jars.to_list()
 
     filelist = ctx.actions.declare_file(ctx.label.name + "-list")
     ctx.actions.write(output = filelist, content = "\n".join([s.path for s in ctx.files.srcs]))
@@ -57,6 +62,7 @@ java_lint_pmd_test = rule(
     implementation = _java_lint_pmd_test_impl,
     attrs = {
         "srcs": attr.label_list(allow_files = True),
+        "deps": attr.label_list(allow_files = True, providers = [JavaInfo]),
         "cli": attr.label(allow_single_file = True, providers = [JavaInfo]),
         "cfg_file": attr.label(allow_single_file = [".xml"], mandatory = True),
         "_host_javabase": attr.label(
@@ -73,6 +79,8 @@ def _java_lint_spotbugs_test_impl(ctx):
     java_bin = ctx.attr._host_javabase[java_common.JavaRuntimeInfo].java_executable_exec_path
 
     jars = ctx.attr.cli[JavaInfo].transitive_compile_time_jars.to_list()
+    for d in ctx.attr.deps:
+        jars += d[JavaInfo].transitive_compile_time_jars.to_list()
 
     auxclasspath = []
     for d in ctx.attr.srcs:
@@ -96,7 +104,8 @@ def _java_lint_spotbugs_test_impl(ctx):
 java_lint_spotbugs_test = rule(
     implementation = _java_lint_spotbugs_test_impl,
     attrs = {
-        "srcs": attr.label_list(allow_files = True, providers = [JavaInfo]),
+        "srcs": attr.label_list(allow_files = True, allow_empty = False, providers = [JavaInfo]),
+        "deps": attr.label_list(allow_files = True, providers = [JavaInfo]),
         "cli": attr.label(allow_single_file = True, providers = [JavaInfo]),
         "cfg_file": attr.label(allow_single_file = [".xml"], mandatory = True),
         "_host_javabase": attr.label(
