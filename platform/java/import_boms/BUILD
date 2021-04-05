@@ -21,7 +21,7 @@ java_binary(
     runtime_deps = [":lib"],
 )
 
-load("//platform/java:java_lint_marcos.bzl", "checkstyle", "pmd", "spotbugs")
+load("//platform/java:java_lint_macros.bzl", "checkstyle", "pmd", "spotbugs")
 
 checkstyle(
     name = "checkstyle",

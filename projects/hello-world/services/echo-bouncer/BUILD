@@ -37,7 +37,7 @@ container_push(
     repository = "slamdev/bazel-playground-hello-world-echo-bouncer",
 )
 
-load("//platform/java:java_lint_marcos.bzl", "checkstyle", "pmd", "spotbugs")
+load("//platform/java:java_lint_macros.bzl", "checkstyle", "pmd", "spotbugs")
 
 checkstyle(
     name = "checkstyle",

@@ -1,6 +1,11 @@
 def _path_to_short_path_mapping_for_singlejar(file):
     return file.path + ":" + file.short_path
 
+def _path_to_short_path_mapping_for_resjar(file):
+    if not file.path.endswith("spring.factories"):
+        return None
+    return file.path + ":" + "META-INF/spring.factories"
+
 def _openapi_spring_gen_impl(ctx):
     ###
     ### Generate .java source files from spec yaml
@@ -46,6 +51,30 @@ def _openapi_spring_gen_impl(ctx):
         progress_message = "Creating interim source jar %s for compilation" % srcjar.basename,
     )
 
+    ###
+    ### Create .jar file with generated resources
+    ###
+    resjar = ctx.actions.declare_file("%s-genres.jar" % ctx.attr.name)
+    resjar_args = ctx.actions.args()
+    resjar_args.add_all(["--normalize", "--compression"])
+    resjar_args.add("--output", resjar)
+    resjar_args.add_all([gen_dir], before_each = "--resources", map_each = _path_to_short_path_mapping_for_resjar)
+    resjar_args.use_param_file("@%s", use_always = True)
+    resjar_args.set_param_file_format("multiline")
+
+    ctx.actions.run(
+        inputs = [gen_dir],
+        outputs = [resjar],
+        executable = ctx.executable._singlejar,
+        arguments = [resjar_args],
+        progress_message = "Creating interim source jar %s for resources" % resjar.basename,
+    )
+
+    res_java_info = JavaInfo(
+        output_jar = resjar,
+        compile_jar = resjar,
+    )
+
     ##
     ## Compile java library from generated jar file and dependencies
     ##
@@ -61,14 +90,14 @@ def _openapi_spring_gen_impl(ctx):
     )
 
     return [
-        DefaultInfo(files = depset(direct = [out_jar])),
-        java_info,
+        DefaultInfo(files = depset(direct = [out_jar, resjar])),
+        java_common.merge([java_info, res_java_info]),
     ]
 
 openapi_spring_gen = rule(
     attrs = {
         "src": attr.label(allow_single_file = [".yaml", ".yml"], mandatory = True),
-        "type": attr.string(mandatory = True, values = ["server", "client"]),
+        "type": attr.string(mandatory = True, values = ["server", "client", "consumer", "producer"]),
         "use_optional": attr.bool(),
         "cli": attr.label(allow_single_file = True),
         "deps": attr.label_list(providers = [JavaInfo]),

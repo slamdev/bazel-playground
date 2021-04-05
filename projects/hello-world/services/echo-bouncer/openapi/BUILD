@@ -10,7 +10,7 @@ client(
     src = "http-spec-v3.yaml",
 )
 
-load("//platform/java:java_lint_marcos.bzl", "openapi")
+load("//platform/java:java_lint_macros.bzl", "openapi")
 
 openapi(
     name = "openapi_lint",
