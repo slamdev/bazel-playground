@@ -40,9 +40,10 @@ http_archive(
 # https://github.com/junit-team/junit5-samples/pull/133
 git_repository(
     name = "bazel_junit5",
-#    branch = "open-source-BazelJUnit5ConsoleLauncher",
+    # branch = "open-source-BazelJUnit5ConsoleLauncher",
     commit = "58ae26dcac159c6179b42bad2ac0c4253fa76d6b",
     remote = "https://github.com/asinbow/junit5-samples.git",
+    shallow_since = "1603169101 +0800",
 )
 
 ###
@@ -65,12 +66,12 @@ load("@io_bazel_rules_docker//java:image.bzl", java_image_repos = "repositories"
 
 java_image_repos()
 
+load("@bazel_junit5//junit5-jupiter-starter-bazel:junit5.bzl", "junit_jupiter_java_repositories", "junit_platform_java_repositories")
+
+junit_jupiter_java_repositories(version = "5.7.1")
+
+junit_platform_java_repositories(version = "1.7.1")
+
 load("//platform/java:deps.bzl", "maven_deps")
 
 maven_deps()
-
-load("@bazel_junit5//junit5-jupiter-starter-bazel:junit5.bzl", "junit_jupiter_java_repositories", "junit_platform_java_repositories")
-
-junit_jupiter_java_repositories(version = "5.7.1",)
-
-junit_platform_java_repositories(version = "1.7.1",)

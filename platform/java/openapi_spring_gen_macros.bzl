@@ -38,7 +38,6 @@ def client(name, src):
         visibility = ["//visibility:public"],
     )
 
-
 def consumer(name, src):
     openapi_spring_gen(
         name = name,
@@ -56,7 +55,6 @@ def consumer(name, src):
         plugins = ["//platform/java:lombok"],
         visibility = ["//visibility:public"],
     )
-
 
 def producer(name, src):
     openapi_spring_gen(

@@ -7,5 +7,5 @@ Experiments with Bazel
 Format bazel files with [buildifier](https://github.com/bazelbuild/buildtools):
 
 ```shell script
-find . -name 'WORKSPACE' -o -name '*.bzl' -o -name 'BUILD'  -exec buildifier -v "{}" \;
+for f in $(find . -name 'WORKSPACE' -o -name '*.bzl' -o -name 'BUILD') ; do buildifier -v $f; done
 ```

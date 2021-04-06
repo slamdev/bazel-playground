@@ -1,4 +1,4 @@
-load("//platform/bazel/rules/java_lint:defs.bzl", "java_lint_checkstyle_test", "java_lint_pmd_test", "java_lint_spotbugs_test", "java_lint_openapi_test")
+load("//platform/bazel/rules/java_lint:defs.bzl", "java_lint_checkstyle_test", "java_lint_openapi_test", "java_lint_pmd_test", "java_lint_spotbugs_test")
 
 def checkstyle(name, srcs):
     java_lint_checkstyle_test(

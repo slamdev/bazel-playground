@@ -1,11 +1,11 @@
 _DEFAULT_ATTRS = {
-        "srcs": attr.label_list(allow_files = True),
-        "deps": attr.label_list(allow_files = True, providers = [JavaInfo]),
-        "cli": attr.label(allow_single_file = True, providers = [JavaInfo]),
-        "_host_javabase": attr.label(
-            default = Label("@bazel_tools//tools/jdk:current_java_runtime"),
-            providers = [java_common.JavaRuntimeInfo],
-        ),
+    "srcs": attr.label_list(allow_files = True),
+    "deps": attr.label_list(allow_files = True, providers = [JavaInfo]),
+    "cli": attr.label(allow_single_file = True, providers = [JavaInfo]),
+    "_host_javabase": attr.label(
+        default = Label("@bazel_tools//tools/jdk:current_java_runtime"),
+        providers = [java_common.JavaRuntimeInfo],
+    ),
 }
 
 def _java_cmd(ctx, main_class, args):
