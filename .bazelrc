@@ -1,2 +1,5 @@
 # remove when https://github.com/bazelbuild/rules_docker/issues/1716 is resolved
 build --incompatible_restrict_string_escapes=false
+
+# https://github.com/bazelbuild/bazel/issues/12837
+build --nojava_header_compilation
