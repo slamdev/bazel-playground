@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import { color, typography } from "styled-system";
 
-export const Text = styled.span({}, color, typography);
+export const Text = styled.span``;
 
 export default Text;

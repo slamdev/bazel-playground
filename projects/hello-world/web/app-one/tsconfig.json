@@ -1,11 +1,21 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
-    "noImplicitAny": true,
-    "module": "es6",
-    "target": "es5",
+    "strict": true,
+    "types": [],
+    "module": "AMD",
+    "moduleResolution": "Node",
+    "declaration": true,
+    "declarationMap": true,
+    "rootDirs": [
+      ".",
+      "bazel-out/darwin-fastbuild/bin",
+      "bazel-out/k8-fastbuild/bin",
+      "bazel-out/x64_windows-fastbuild/bin",
+      "bazel-out/darwin-dbg/bin",
+      "bazel-out/k8-dbg/bin",
+      "bazel-out/x64_windows-dbg/bin"
+    ],
     "jsx": "react",
-    "allowJs": true,
-    "moduleResolution": "Node"
+    "lib": ["ESNext", "DOM"]
   }
 }

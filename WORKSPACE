@@ -1,4 +1,4 @@
-workspace(name = "bazel-playground")
+workspace(name = "bazel-playground", managed_directories = {"@npm": ["node_modules"]})
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
@@ -46,6 +46,13 @@ git_repository(
     shallow_since = "1603169101 +0800",
 )
 
+# https://github.com/bazelbuild/rules_nodejs/releases
+http_archive(
+    name = "build_bazel_rules_nodejs",
+    sha256 = "5c40083120eadec50a3497084f99bc75a85400ea727e82e0b2f422720573130f",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/4.0.0-beta.0/rules_nodejs-4.0.0-beta.0.tar.gz"],
+)
+
 ###
 ### Load repository rules
 ###
@@ -75,3 +82,7 @@ junit_platform_java_repositories(version = "1.7.1")
 load("//platform/java:deps.bzl", "maven_deps")
 
 maven_deps()
+
+load("//platform/js:deps.bzl", "npm_deps")
+
+npm_deps()
